@@ -90,15 +90,25 @@
 <script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/js/tabulator.min.js"></script>
 <script>
 
-  let data;
+  let data
+  let n_data
 
   fetch('fogocn260217.json')
     .then(res => res.json())
     .then(json => {
       data = json; // 赋值到变量
-      console.log(data);
+      //console.log(data);
     })
     .catch(err => console.error(err));
+
+    fetch('fogocn260218.json')
+      .then(res => res.json())
+      .then(json => {
+        n_data = json; // 赋值到变量
+        //console.log(data);
+      })
+      .catch(err => console.error(err));
+
 
 
 new Tabulator("#table", {
