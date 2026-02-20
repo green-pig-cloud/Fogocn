@@ -90,57 +90,55 @@
 <script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/js/tabulator.min.js"></script>
 <script>
 
-  let o_data
-  let n_data
+  var o_data
+  var n_data
+  var List_data = Array();
 
-  fetch('fogocn260217.json')
-    .then(res => res.json())
-    .then(json => {
-      data = json; // 赋值到变量
-      //console.log(data);
-    })
-    .catch(err => console.error(err));
+  async function loadJson() {
+    const o_res = await fetch('fogocn260217.json');
+    o_data = await o_res.json();
 
-    fetch('fogocn260218.json')
-      .then(res => res.json())
-      .then(json => {
-        n_data = json; // 赋值到变量
-        //console.log(data);
-      })
-      .catch(err => console.error(err));
-
-var List_data = Array();
-
-
-
-for (var i = 0; i < n_data.data.list.length; i++) {
-
-  for (var x = 0; x < n_data.data.list.length; x++) {
-    if (n_data.data.list[i].username == o_data.data.list[x].username) {
-      var v = {
-        rank : n_data.data.list[i].ranking,
-        user:n_data.data.list[i].displayName,
-        score:n_data.data.list[i].points,
-        add:n_data.data.list[i].points - o_data.data.list[i].points
-      }
-      List_data.push(list_user)
-    }
+    const n_res = await fetch('fogocn260218.json');
+    n_data = await n_res.json();
 
   }
-}
+
+  (async () => {
+  await loadJson();
+  for (var i = 0; i < n_data.data.list.length; i++) {
+    for (var x = 0; x < n_data.data.list.length; x++) {
+      if (n_data.data.list[i].username == o_data.data.list[x].username) {
+        var v = {
+          rank : n_data.data.list[i].ranking,
+          user:n_data.data.list[i].displayName,
+          score:n_data.data.list[i].points,
+          add:n_data.data.list[i].points - o_data.data.list[x].points
+        }
+        List_data.push(v)
+      }
+
+    }
+  }
+  new Tabulator("#table", {
+    data: List_data,
+    columns: [
+      { title: "排名", field: "rank", sorter: "number", width: "15%" },
+      { title: "用户名", field: "user", sorter: "string", width: "35%" },
+      { title: "当前积分", field: "score", sorter: "number", width: "25%" },
+      { title: "加分", field: "add", sorter: "number", width: "25%" },
+    ],
+    layout: "fitColumns",
+    responsiveLayout: "hide",
+  });
+  })();
 
 
-new Tabulator("#table", {
-  data: List_data,
-  columns: [
-    { title: "排名", field: "rank", sorter: "number", width: "15%" },
-    { title: "用户名", field: "user", sorter: "string", width: "35%" },
-    { title: "当前积分", field: "score", sorter: "number", width: "25%" },
-    { title: "加分", field: "add", sorter: "number", width: "25%" },
-  ],
-  layout: "fitColumns",
-  responsiveLayout: "hide",
-});
+
+
+
+
+
+
 </script>
 </body>
 </html>
