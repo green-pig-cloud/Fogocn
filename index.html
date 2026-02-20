@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Fogo华语排行榜快照</title>
+
+<link href="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/css/tabulator.min.css" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  body {
+    background: #272020;
+    padding: 50px 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  /* 标题高级黑风格 */
+  .page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.15);
+  }
+  /* 黑色主题表格 */
+  .tabulator {
+    background-color: #1a1a1a !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    border: none !important;
+  }
+  /* 纯黑表头 - 核心修改部分 */
+  .tabulator-header {
+    background: #121212 !important; /* 纯黑背景，和页面底色一致 */
+    border-bottom: 1px solid #333 !important;
+  }
+  .tabulator-col {
+    background: #121212 !important; /* 列头也设为纯黑 */
+    border-right: 1px solid #333 !important;
+  }
+  .tabulator-col-title {
+    color: #f0f0f0 !important;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  /* 表格行 */
+  .tabulator-row {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+    border-bottom: 1px solid #2a2a2a !important;
+  }
+  /* 悬浮高亮 */
+  .tabulator-row:hover{
+    background-color: #252525 !important;
+  }
+  .tabulator-header:hover{
+    background-color: #252525 !important;
+  }
+  /* 单元格 */
+  .tabulator-cell {
+    padding: 14px 16px !important;
+    font-size: 14px;
+  }
+  /* 排序箭头白色 */
+  .tabulator-col-sorter {
+    color: #ffffff !important;
+  }
+  /* 表头点击排序时的高亮色，保持黑色系 */
+  .tabulator-col-active {
+    background: #181818 !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-title">Fogo华语排行榜19号快照</div>
+  <div id="table"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/js/tabulator.min.js"></script>
+<script>
+
+  let data;
+
+  fetch('fogocn260217.json')
+    .then(res => res.json())
+    .then(json => {
+      data = json; // 赋值到变量
+      console.log(data);
+    })
+    .catch(err => console.error(err));
+
+
+new Tabulator("#table", {
+  data: [
+    { rank: 1, user: "陈同学", score: 9850, add: 620 },
+    { rank: 2, user: "林小雨", score: 9620, add: 580 },
+    { rank: 3, user: "王越", score: 9180, add: 450 },
+    { rank: 4, user: "苏子晨", score: 8860, add: 390 },
+    { rank: 5, user: "南风", score: 8530, add: 320 },
+  ],
+  columns: [
+    { title: "排名", field: "rank", sorter: "number", width: "15%" },
+    { title: "用户名", field: "user", sorter: "string", width: "35%" },
+    { title: "当前积分", field: "score", sorter: "number", width: "25%" },
+    { title: "加分", field: "add", sorter: "number", width: "25%" },
+  ],
+  layout: "fitColumns",
+  responsiveLayout: "hide",
+});
+</script>
+</body>
+</html>
