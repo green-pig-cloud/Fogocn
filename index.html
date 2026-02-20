@@ -90,7 +90,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/js/tabulator.min.js"></script>
 <script>
 
-  let data
+  let o_data
   let n_data
 
   fetch('fogocn260217.json')
@@ -109,16 +109,29 @@
       })
       .catch(err => console.error(err));
 
+var List_data = Array();
+
+
+
+for (var i = 0; i < n_data.data.list.length; i++) {
+
+  for (var x = 0; x < n_data.data.list.length; x++) {
+    if (n_data.data.list[i].username == o_data.data.list[x].username) {
+      var v = {
+        rank : n_data.data.list[i].ranking,
+        user:n_data.data.list[i].displayName,
+        score:n_data.data.list[i].points,
+        add:n_data.data.list[i].points - o_data.data.list[i].points
+      }
+      List_data.push(list_user)
+    }
+
+  }
+}
 
 
 new Tabulator("#table", {
-  data: [
-    { rank: 1, user: "陈同学", score: 9850, add: 620 },
-    { rank: 2, user: "林小雨", score: 9620, add: 580 },
-    { rank: 3, user: "王越", score: 9180, add: 450 },
-    { rank: 4, user: "苏子晨", score: 8860, add: 390 },
-    { rank: 5, user: "南风", score: 8530, add: 320 },
-  ],
+  data: List_data,
   columns: [
     { title: "排名", field: "rank", sorter: "number", width: "15%" },
     { title: "用户名", field: "user", sorter: "string", width: "35%" },
