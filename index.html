@@ -120,7 +120,7 @@
           rank : n_data.data.list[i].ranking,
           user:n_data.data.list[i].displayName,
           score:n_data.data.list[i].points,
-          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length].points
+          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length - 1].points
         }
         List_data.push(v);
       }
