@@ -106,7 +106,7 @@
   (async () => {
   await loadJson();
   for (var i = 0; i < n_data.data.list.length; i++) {
-    for (var x = 0; x < n_data.data.list.length; x++) {
+    for (var x = 0; x < o_data.data.list.length; x++) {
       if (n_data.data.list[i].username == o_data.data.list[x].username) {
         var v = {
           rank : n_data.data.list[i].ranking,
@@ -114,8 +114,16 @@
           score:n_data.data.list[i].points,
           add:n_data.data.list[i].points - o_data.data.list[x].points
         }
-        List_data.push(v)
-      }
+        List_data.push(v);
+      }elae｛
+        var v = {
+          rank : n_data.data.list[i].ranking,
+          user:n_data.data.list[i].displayName,
+          score:n_data.data.list[i].points,
+          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length].points
+        }
+        List_data.push(v);
+      ｝
 
     }
   }
