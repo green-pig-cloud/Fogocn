@@ -40,11 +40,11 @@
   }
 
   .tabulator-header {
-    background: #121212 !important; 
+    background: #121212 !important;
     border-bottom: 1px solid #333 !important;
   }
   .tabulator-col {
-    background: #121212 !important; 
+    background: #121212 !important;
     border-right: 1px solid #333 !important;
   }
   .tabulator-col-title {
@@ -115,7 +115,9 @@
           add:n_data.data.list[i].points - o_data.data.list[x].points
         }
         List_data.push(v);
-      }else{
+        break;
+      }
+      if (x ==  o_data.data.list.length - 1) {
         var v = {
           rank : n_data.data.list[i].ranking,
           user:n_data.data.list[i].displayName,
@@ -124,7 +126,6 @@
         }
         List_data.push(v);
       }
-
     }
   }
   new Tabulator("#table", {
