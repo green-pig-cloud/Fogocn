@@ -112,7 +112,8 @@
           rank : n_data.data.list[i].ranking,
           user:n_data.data.list[i].displayName,
           score:n_data.data.list[i].points,
-          add:n_data.data.list[i].points - o_data.data.list[x].points
+          add:n_data.data.list[i].points - o_data.data.list[x].points,
+          url:'https://www.binance.com/zh-CN/square/profile/' + n_data.data.list[i].username
         }
         List_data.push(v);
         break;
@@ -122,7 +123,9 @@
           rank : n_data.data.list[i].ranking,
           user:n_data.data.list[i].displayName,
           score:n_data.data.list[i].points,
-          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length - 1].points
+          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length - 1].points,
+          url:'https://www.binance.com/zh-CN/square/profile/' + n_data.data.list[i].username
+
         }
         List_data.push(v);
       }
@@ -132,7 +135,15 @@
     data: List_data,
     columns: [
       { title: "排名", field: "rank", sorter: "number", width: "15%" },
-      { title: "用户名", field: "user", sorter: "string", width: "35%" },
+      { title: "用户名",
+        field: "user",
+        sorter: "string",
+        width: "35%" ,
+        formatter: function(cell, params) {
+        const value = cell.getValue();
+        const url = cell.getRow().getData().url;
+        return `<a href="${url}" target="_blank" style="color:#fff; text-decoration:underline;">${value}</a>`;
+      }},
       { title: "当前积分", field: "score", sorter: "number", width: "25%" },
       { title: "加分", field: "add", sorter: "number", width: "25%" },
     ],
