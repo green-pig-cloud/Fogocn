@@ -83,7 +83,7 @@
 <body>
 
 <div class="container">
-  <div class="page-title">Fogo华语排行榜19号快照</div>
+  <div class="page-title">Fogo华语排行榜20号快照</div>
   <div id="table"></div>
 </div>
 
@@ -95,10 +95,10 @@
   var List_data = Array();
 
   async function loadJson() {
-    const o_res = await fetch('fogocn260218.json');
+    const o_res = await fetch('fogocn260219.json');
     o_data = await o_res.json();
 
-    const n_res = await fetch('fogocn260219.json');
+    const n_res = await fetch('fogocn260220.json');
     n_data = await n_res.json();
 
   }
