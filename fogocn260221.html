@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Fogo华语排行榜快照</title>
+
+<link href="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/css/tabulator.min.css" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  body {
+    background: #272020;
+    padding: 50px 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.15);
+  }
+
+  .tabulator {
+    background-color: #1a1a1a !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    border: none !important;
+  }
+
+  .tabulator-header {
+    background: #121212 !important;
+    border-bottom: 1px solid #333 !important;
+  }
+  .tabulator-col {
+    background: #121212 !important;
+    border-right: 1px solid #333 !important;
+  }
+  .tabulator-col-title {
+    color: #f0f0f0 !important;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .tabulator-row {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+    border-bottom: 1px solid #2a2a2a !important;
+  }
+
+  .tabulator-row:hover{
+    background-color: #252525 !important;
+  }
+  .tabulator-header:hover{
+    background-color: #252525 !important;
+  }
+
+  .tabulator-cell {
+    padding: 14px 16px !important;
+    font-size: 14px;
+  }
+
+  .tabulator-col-sorter {
+    color: #ffffff !important;
+  }
+
+  .tabulator-col-active {
+    background: #181818 !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-title">Fogo华语排行榜21号快照</div>
+  <div id="table"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6/dist/js/tabulator.min.js"></script>
+<script>
+
+  var o_data
+  var n_data
+  var List_data = Array();
+
+  async function loadJson() {
+    const o_res = await fetch('fogocn260220.json');
+    o_data = await o_res.json();
+
+    const n_res = await fetch('fogocn260221.json');
+    n_data = await n_res.json();
+
+  }
+
+  (async () => {
+  await loadJson();
+  for (var i = 0; i < n_data.data.list.length; i++) {
+    for (var x = 0; x < o_data.data.list.length; x++) {
+      if (n_data.data.list[i].username == o_data.data.list[x].username) {
+        var v = {
+          rank : n_data.data.list[i].ranking,
+          user:n_data.data.list[i].displayName,
+          score:n_data.data.list[i].points,
+          add:n_data.data.list[i].points - o_data.data.list[x].points,
+          url:'https://www.binance.com/zh-CN/square/profile/' + n_data.data.list[i].username
+        }
+        List_data.push(v);
+        break;
+      }
+      if (x ==  o_data.data.list.length - 1) {
+        var v = {
+          rank : n_data.data.list[i].ranking,
+          user:n_data.data.list[i].displayName,
+          score:n_data.data.list[i].points,
+          add:n_data.data.list[i].points - o_data.data.list[o_data.data.list.length - 1].points,
+          url:'https://www.binance.com/zh-CN/square/profile/' + n_data.data.list[i].username
+
+        }
+        List_data.push(v);
+      }
+    }
+  }
+  new Tabulator("#table", {
+    data: List_data,
+    columns: [
+      { title: "排名", field: "rank", sorter: "number", width: "15%" },
+      { title: "用户名",
+        field: "user",
+        sorter: "string",
+        width: "35%" ,
+        formatter: function(cell, params) {
+        const value = cell.getValue();
+        const url = cell.getRow().getData().url;
+        return `<a href="${url}" target="_blank" style="color:#fff; text-decoration:underline;">${value}</a>`;
+      }},
+      { title: "当前积分", field: "score", sorter: "number", width: "25%" },
+      { title: "加分", field: "add", sorter: "number", width: "25%" },
+    ],
+    layout: "fitColumns",
+    responsiveLayout: "hide",
+  });
+  })();
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
